@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>phone</title>
+</head>
+<body>
+<h1>Phone List</h1>
+<p>
+    <a href="/create-phone">Create a new phone</a>
+</p>
+<a th:href="@{/sort-by-price-asc}">Price Asc</a>
+<a th:href="@{/sort-by-price-desc}">Price Desc</a>
+<a th:href="@{/sort-by-date-asc}">Date Asc</a>
+<a th:href="@{/sort-by-date-desc}">Date Desc</a>
+<form>
+    Search by price:
+    <input name="s" type="text">
+    <input type="submit" value="Search">
+</form>
+<table border="1">
+    <tr>
+        <td>Name Phone</td>
+        <td>Date Of Purchase</td>
+        <td>Price</td>
+        <td>Category</td>
+        <td>Description</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <th:block th:each="phone : ${phones}">
+        <tr>
+            <td th:text="*{phone.name}"></td>
+            <td th:text="*{phone.dateOfPurchase}"></td>
+            <td th:text="*{phone.price}"></td>
+            <td th:text="*{phone.category.name}"></td>
+            <td th:text="*{phone.description}"></td>
+            <td><a th:href="@{/edit-phone/__${phone.id}__}">Edit</a></td>
+            <td><a th:href="@{/delete-phone/__${phone.id}__}" onclick="return confirm('Are you sure?')">Delete</a></td>
+        </tr>
+    </th:block>
+</table>
+<div>
+    <a th:href="@{'/phone'(page=${phones.number - 1})}" th:if="${phones.hasPrevious()}" >previous</a>
+    <span th:text="${phones.number + 1}"/>/<span th:text="${phones.totalPages}"/>
+    <a th:href="@{'/phone'(page=${phones.number + 1})}" th:if="${phones.hasNext()}" >next</a>
+</div>
+</body>
+</html>
